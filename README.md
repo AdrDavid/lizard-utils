@@ -1,34 +1,34 @@
 # lizard-utils
 
-Funções utilitárias de formatação: documentos, telefone, CEP e moeda.
+Utility functions for formatting documents, phone numbers, postal codes (CEP) and currency.
 
-Escrita em TypeScript, sem dependências. Funciona em qualquer projeto JavaScript/TypeScript (React, NestJS, Node, etc.), com suporte a `import` (ESM) e `require` (CommonJS).
+Written in TypeScript with no dependencies. Works in any JavaScript/TypeScript project (React, NestJS, Node, etc.), with support for both `import` (ESM) and `require` (CommonJS).
 
-## Instalação
+## Installation
 
 ```bash
-npm install github:SEU-USUARIO/adr-utils#v0.1.0
+npm install github:AdrDavid/lizard-utils#v0.1.0
 ```
 
-Troque `v0.1.0` pela versão desejada. Sem a tag, é instalado o que estiver na branch `main`.
+Replace `v0.1.0` with the version you want. Without a tag, whatever is on the `main` branch at install time is installed.
 
-## Uso
+## Usage
 
 ```ts
-import { formatCPF, formatCurrency, onlyNumbers } from "adr-utils";
+import { formatCPF, formatCurrency, onlyNumbers } from "lizard-utils";
 
 formatCPF("12345678901");       // "123.456.789-01"
 formatCurrency(1500.5);         // "R$ 1.500,50"
 onlyNumbers("123.456.789-01");  // "12345678901"
 ```
 
-## Funções
+## Functions
 
-### Formatação
+### Formatting
 
-Os formatadores aceitam valores com ou sem pontuação e também valores incompletos, então podem ser usados como máscara em inputs (formatam enquanto o usuário digita).
+The formatters accept values with or without punctuation, as well as incomplete values, so they can be used as input masks (formatting while the user types).
 
-| Função | Entrada | Saída |
+| Function | Input | Output |
 |---|---|---|
 | `formatCPF` | `"12345678901"` | `"123.456.789-01"` |
 | `formatCNPJ` | `"12345678000190"` | `"12.345.678/0001-90"` |
@@ -37,7 +37,7 @@ Os formatadores aceitam valores com ou sem pontuação e também valores incompl
 | `formatCEP` | `"78550000"` | `"78550-000"` |
 | `formatCurrency` | `1500.5` | `"R$ 1.500,50"` |
 
-Durante a digitação:
+While typing:
 
 ```ts
 formatCPF("1234");      // "123.4"
@@ -45,15 +45,15 @@ formatCPF("1234567");   // "123.456.7"
 formatPhone("669");     // "(66) 9"
 ```
 
-Dígitos além do tamanho máximo são ignorados:
+Digits beyond the maximum length are ignored:
 
 ```ts
 formatCPF("1234567890123"); // "123.456.789-01"
 ```
 
-### Envio para API
+### Sending to an API
 
-Para remover a formatação de CPF, CNPJ, telefone e CEP, use `onlyNumbers`:
+To remove formatting from CPF, CNPJ, phone numbers and CEP, use `onlyNumbers`:
 
 ```ts
 onlyNumbers("123.456.789-01");     // "12345678901"
@@ -61,7 +61,7 @@ onlyNumbers("12.345.678/0001-90"); // "12345678000190"
 onlyNumbers("(66) 99212-9562");    // "66992129562"
 ```
 
-Para moeda, use `parseCurrency`, que converte o texto em `number`:
+For currency, use `parseCurrency`, which converts the text into a `number`:
 
 ```ts
 parseCurrency("R$ 1.500,50"); // 1500.5
@@ -69,32 +69,32 @@ parseCurrency("-R$ 10,00");   // -10
 parseCurrency("");            // 0
 ```
 
-> `parseCurrency` espera o formato brasileiro (ponto como milhar, vírgula como decimal). Não use com valores no formato americano (`"1500.50"`).
+> `parseCurrency` expects the Brazilian format (dot as thousands separator, comma as decimal separator). Don't use it with values in US format (`"1500.50"`).
 
-## Desenvolvimento
+## Development
 
 ```bash
-npm install     # instala as dependências
-npm test        # roda os testes em modo watch
-npm run build   # gera a pasta dist
+npm install     # install dependencies
+npm test        # run tests in watch mode
+npm run build   # generate the dist folder
 ```
 
-### Adicionando uma função
+### Adding a function
 
-1. Crie a pasta `src/nomeDaFuncao/` com um `index.ts` exportando a função.
-2. Crie o teste em `src/nomeDaFuncao/nomeDaFuncao.test.ts`.
-3. Exporte a função em `src/index.ts`:
+1. Create the folder `src/functionName/` with an `index.ts` exporting the function.
+2. Create the test at `src/functionName/functionName.test.ts`.
+3. Export the function in `src/index.ts`:
    ```ts
-   export * from "./nomeDaFuncao";
+   export * from "./functionName";
    ```
-   Sem essa linha, a função funciona nos testes mas não fica disponível para quem instala a lib.
+   Without this line, the function works in the tests but isn't available to projects that install the library.
 
-### Publicando uma nova versão
+### Releasing a new version
 
-1. Atualize a versão no `package.json` (ex: `0.1.0` → `0.2.0`).
-2. Faça o commit e crie a tag:
+1. Update the version in `package.json` (e.g. `0.1.0` → `0.2.0`).
+2. Commit and create the tag:
    ```bash
    git tag v0.2.0
    git push --tags
    ```
-3. Nos projetos, atualize a tag no comando de instalação.
+3. In your projects, update the tag in the install command.
