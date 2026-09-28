@@ -1,4 +1,4 @@
-# adr-utils
+# lizard-utils
 
 Funções utilitárias de formatação: documentos, telefone, CEP e moeda.
 
